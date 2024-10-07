@@ -24,7 +24,7 @@ connect();
 
 const runQueries = async() => {
   
-    const choice = await userChoice();
+    const choice = userChoice();  //don't need await since no response is needed from the database
     
     if (choice==='1') {
         await createCustomer();
@@ -59,8 +59,8 @@ const createCustomer = async() => {
     console.log('\n');
     
     const customerData = {
-        name: `${customerName}`,
-        age: `${customerAge}`
+        name: customerName,  //info comes back as a string from user entry, so no template literals needed
+        age: customerAge
     };
 
     const customer = await Customer.create(customerData);
@@ -104,8 +104,10 @@ const updateCustomer = async() => {
 
     const updatedCustomer = await Customer.findByIdAndUpdate(
         customerId,
-        {name: `${customerName}`,
-        age: `${customerAge}`},
+        {                       // object formatting requires curly brackets on their own line
+            name: customerName,  //no template literal needed since user entry is a string
+            age: customerAge
+        },
         {new: true}
     );
     
